@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-import { RadioButton, RadioOption, RadioGroup }  from 'radio'
+import { RadioButton, RadioOption, RadioGroup }  from '@ohos/material-radio'
 
 @Entry
 @Component

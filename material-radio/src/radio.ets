@@ -53,17 +53,17 @@ export struct RadioGroup {
 export struct RadioButton {
   @Prop radioId: number
   @Prop radioLabel: string
+  ringColor: string = "#78A064" // Color.Green
   @Link selectedRadioId: number
   @State checked: boolean = false
   @State disabled: boolean = false
   @State private rippleVisible: boolean = false
   @State private innerScale: number = 0
   @State private rippleScale: number = 0
-  private ringColor: Color = Color.Green
 
   aboutToAppear() {
     if (this.disabled) {
-      this.ringColor = Color.Gray
+      this.ringColor = "#757575" // Color.Gray
     }
     if (this.checked) {
       this.showInnerRing()
@@ -109,32 +109,32 @@ export struct RadioButton {
       Row() {
         Stack() {
           Stack() {
-            Circle({ width: 16, height: 16 })
-              .borderRadius(8)
+            Circle({ width: '16vp', height: '16vp' })
+              .borderRadius('8vp')
               .fill(this.checked ? this.ringColor : Color.White)
               .scale({ x: this.innerScale, y: this.innerScale })
 
-            Circle({ width: 16, height: 16 })
+            Circle({ width: '16vp', height: '16vp' })
               .opacity(.2)
-              .borderRadius(8)
+              .borderRadius('8vp')
               .fill(Color.Green)
               .scale({ x: this.rippleScale, y: this.rippleScale })
               .visibility(this.rippleVisible ? Visibility.Visible : Visibility.Hidden)
           }
-          .width(20)
-          .height(20)
-          .borderRadius(10)
+          .width('20vp')
+          .height('20vp')
+          .borderRadius('10vp')
           .backgroundColor(Color.White)
         }
-        .margin(4)
-        .width(24)
-        .height(24)
-        .borderRadius(12)
+        .margin('4vp')
+        .width('24vp')
+        .height('24vp')
+        .borderRadius('12vp')
         .backgroundColor(this.ringColor)
 
         Text(this.radioLabel)
-          .fontSize(16)
-          .margin({ left: 8, right: 16 })
+          .fontSize('16vp')
+          .margin({ left: '8vp', right: '16vp' })
       }.width('100%')
     }
     .onClick(() => this.onClick())

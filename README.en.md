@@ -6,7 +6,7 @@ Material component radio design in OpenHarmony.
 
 Install using npm
 
-```npm i radio```
+```npm i ohos-material-radio```
 
 Details about OpenHarmony NPM environment configuration, see at [here](https://gitee.com/openharmony-tpc/docs/blob/master/OpenHarmony_npm_usage.md)
 
@@ -15,7 +15,7 @@ Details about OpenHarmony NPM environment configuration, see at [here](https://g
 Import all components at once
 
 ```ets
-import { RadioButton, RadioOption, RadioGroup }  from 'radio'
+import { RadioButton, RadioOption, RadioGroup }  from '@ohos/material-radio'
 ```
 
 Use respective components to create below radio button/group design.
@@ -54,5 +54,3 @@ This project is based on [Apache License 2.0](https://github.com/Applib-OpenHarm
 # Reference:
 
 Design by : Dharma Seelan
-
-[comment]: <> (<a href="sample_images/design.png">Original Design Mockup</a>)
