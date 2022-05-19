@@ -26,6 +26,7 @@ export class RadioOption {
 export struct RadioGroup {
   @State options: RadioOption [] = []
   @Link selectedRadioId: number
+  private onSelect: ((id: number, label: string) => void) = null
 
   build() {
     Column() {
@@ -38,7 +39,12 @@ export struct RadioGroup {
                 radioId: item.id,
                 radioLabel: item.label,
                 selectedRadioId: $selectedRadioId,
-                checked: this.selectedRadioId == item.id
+                checked: this.selectedRadioId == item.id,
+                onSelect: (id, label) => {
+                  if (this.onSelect != null) {
+                    this.onSelect(id, label);
+                  }
+                }
               })
             }
           },
@@ -53,13 +59,14 @@ export struct RadioGroup {
 export struct RadioButton {
   @Prop radioId: number
   @Prop radioLabel: string
-  ringColor: string = "#78A064" // Color.Green
   @Link selectedRadioId: number
   @State checked: boolean = false
   @State disabled: boolean = false
   @State private rippleVisible: boolean = false
   @State private innerScale: number = 0
   @State private rippleScale: number = 0
+  private ringColor: string = "#78A064" // Color.Green
+  private onSelect: ((id: number, label: string) => void) = null
 
   aboutToAppear() {
     if (this.disabled) {
@@ -79,6 +86,11 @@ export struct RadioButton {
   private showInnerRing() {
     this.checked = true
     this.selectedRadioId = this.radioId
+
+    if (this.onSelect != null) {
+      this.onSelect(this.radioId, this.radioLabel);
+    }
+
     animateTo({ duration: 250 }, () => {
       this.innerScale = 1
     })

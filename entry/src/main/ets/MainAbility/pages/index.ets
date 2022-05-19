@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+import prompt from '@system.prompt';
 import { RadioButton, RadioOption, RadioGroup }  from '@ohos/material-radio'
 
 @Entry
@@ -39,7 +40,12 @@ struct Index {
       RadioButton({
         radioId: 1,
         radioLabel: 'Radio Enabled',
-        selectedRadioId: $singleSelectedRadioId
+        selectedRadioId: $singleSelectedRadioId,
+        onSelect: (id, label) => {
+          prompt.showToast({
+            message: label
+          })
+        }
       })
 
       RadioButton({
@@ -74,7 +80,12 @@ struct Index {
 
       RadioGroup({
         options: this.radioOptions,
-        selectedRadioId: $selectedRadioId
+        selectedRadioId: $selectedRadioId,
+        onSelect: (id, label) => {
+          prompt.showToast({
+            message: label
+          });
+        }
       })
 
     }
