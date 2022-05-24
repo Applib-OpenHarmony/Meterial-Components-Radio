@@ -1,0 +1,40 @@
+{
+  "string": [
+    {
+      "name": "option_1",
+      "value": "Option 1"
+    },
+    {
+      "name": "option_2",
+      "value": "Option 2"
+    },
+    {
+      "name": "option_3",
+      "value": "Option 3"
+    },
+    {
+      "name": "radio_buttons",
+      "value": "Radio Buttons"
+    },
+    {
+      "name": "radio_enabled",
+      "value": "Radio Enabled"
+    },
+    {
+      "name": "radio_disabled",
+      "value": "Radio Disabled"
+    },
+    {
+      "name": "radio_selected_enabled",
+      "value": "Radio Selected Enabled"
+    },
+    {
+      "name": "radio_selected_disabled",
+      "value": "Radio Selected Disabled"
+    },
+    {
+      "name": "radio_group",
+      "value": "Radio Group"
+    }
+  ]
+}
