@@ -1,0 +1,40 @@
+{
+  "string": [
+    {
+      "name": "option_1",
+      "value": "選項 1"
+    },
+    {
+      "name": "option_2",
+      "value": "選項 2"
+    },
+    {
+      "name": "option_3",
+      "value": "選項 3"
+    },
+    {
+      "name": "radio_buttons",
+      "value": "單選按鈕"
+    },
+    {
+      "name": "radio_enabled",
+      "value": "啟用無線電"
+    },
+    {
+      "name": "radio_disabled",
+      "value": "無線電已禁用"
+    },
+    {
+      "name": "radio_selected_enabled",
+      "value": "無線電選擇啟用"
+    },
+    {
+      "name": "radio_selected_disabled",
+      "value": "無線電選擇已禁用"
+    },
+    {
+      "name": "radio_group",
+      "value": "無線電集團"
+    }
+  ]
+}

@@ -19,19 +19,18 @@ import { RadioButton, RadioOption, RadioGroup }  from '@ohos/material-radio'
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World'
   @State singleSelectedRadioId: number = -1
   @State selectedRadioId: number = -1
   private radioOptions: RadioOption [] = [
-    new RadioOption(1, "Option 1"),
-    new RadioOption(2, "Option 2"),
-    new RadioOption(3, "Option 3")
+    new RadioOption(1, $r('app.string.option_1')),
+    new RadioOption(2, $r('app.string.option_2')),
+    new RadioOption(3, $r('app.string.option_3'))
   ]
 
   build() {
     Column() {
 
-      Text("Radio Buttons")
+      Text($r('app.string.radio_buttons'))
         .width('100%')
         .fontSize(16)
         .fontWeight(FontWeight.Bolder)
@@ -39,32 +38,32 @@ struct Index {
 
       RadioButton({
         radioId: 1,
-        radioLabel: 'Radio Enabled',
+        radioLabel: $r('app.string.radio_enabled'),
         selectedRadioId: $singleSelectedRadioId,
-        onSelect: (id, label) => {
+        onSelect: (id) => {
           prompt.showToast({
-            message: label
+            message: id.toString()
           })
         }
       })
 
       RadioButton({
-        radioId: 1,
-        radioLabel: 'Radio Disabled',
+        radioId: 2,
+        radioLabel: $r('app.string.radio_disabled'),
         selectedRadioId: $singleSelectedRadioId,
         disabled: true
       })
 
       RadioButton({
-        radioId: 1,
-        radioLabel: 'Radio Selected Enabled',
+        radioId: 3,
+        radioLabel: $r('app.string.radio_selected_enabled'),
         selectedRadioId: $singleSelectedRadioId,
         checked: true
       })
 
       RadioButton({
-        radioId: 1,
-        radioLabel: 'Radio Selected Disabled',
+        radioId: 4,
+        radioLabel: $r('app.string.radio_selected_disabled'),
         selectedRadioId: $singleSelectedRadioId,
         checked: true,
         disabled: true
@@ -72,7 +71,7 @@ struct Index {
 
       Divider().height(4)
 
-      Text("Radio Group")
+      Text($r('app.string.radio_group'))
         .width('100%')
         .fontSize(16)
         .fontWeight(FontWeight.Bolder)
@@ -81,9 +80,9 @@ struct Index {
       RadioGroup({
         options: this.radioOptions,
         selectedRadioId: $selectedRadioId,
-        onSelect: (id, label) => {
+        onSelect: (id) => {
           prompt.showToast({
-            message: label
+            message: "Selected radio button id - " + id
           });
         }
       })

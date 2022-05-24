@@ -15,8 +15,8 @@
 
 export class RadioOption {
   id: number
-  label: string
-  constructor(id: number, label: string) {
+  label: string | Resource
+  constructor(id: number, label: string | Resource) {
     this.id = id
     this.label = label
   }
@@ -26,7 +26,7 @@ export class RadioOption {
 export struct RadioGroup {
   @State options: RadioOption [] = []
   @Link selectedRadioId: number
-  private onSelect: ((id: number, label: string) => void) = null
+  private onSelect: ((id: number) => void) = null
 
   build() {
     Column() {
@@ -40,9 +40,9 @@ export struct RadioGroup {
                 radioLabel: item.label,
                 selectedRadioId: $selectedRadioId,
                 checked: this.selectedRadioId == item.id,
-                onSelect: (id, label) => {
+                onSelect: (id) => {
                   if (this.onSelect != null) {
-                    this.onSelect(id, label);
+                    this.onSelect(id);
                   }
                 }
               })
@@ -58,19 +58,21 @@ export struct RadioGroup {
 @Component
 export struct RadioButton {
   @Prop radioId: number
-  @Prop radioLabel: string
   @Link selectedRadioId: number
   @State checked: boolean = false
   @State disabled: boolean = false
   @State private rippleVisible: boolean = false
   @State private innerScale: number = 0
   @State private rippleScale: number = 0
-  private ringColor: string = "#78A064" // Color.Green
-  private onSelect: ((id: number, label: string) => void) = null
+  @State private ringOpacity: number = 1
+  private radioLabel: string | Resource = ""
+  private ringColor: string = "#78A064"
+  private onSelect: ((id: number) => void) = null
 
   aboutToAppear() {
     if (this.disabled) {
-      this.ringColor = "#757575" // Color.Gray
+      //      this.ringColor = "#757575"
+      this.ringOpacity = 0.7
     }
     if (this.checked) {
       this.showInnerRing()
@@ -88,7 +90,7 @@ export struct RadioButton {
     this.selectedRadioId = this.radioId
 
     if (this.onSelect != null) {
-      this.onSelect(this.radioId, this.radioLabel);
+      this.onSelect(this.radioId);
     }
 
     animateTo({ duration: 250 }, () => {
@@ -123,13 +125,14 @@ export struct RadioButton {
           Stack() {
             Circle({ width: '16vp', height: '16vp' })
               .borderRadius('8vp')
+              .opacity(this.ringOpacity)
               .fill(this.checked ? this.ringColor : Color.White)
               .scale({ x: this.innerScale, y: this.innerScale })
 
             Circle({ width: '16vp', height: '16vp' })
               .opacity(.2)
               .borderRadius('8vp')
-              .fill(Color.Green)
+              .fill(this.ringColor)
               .scale({ x: this.rippleScale, y: this.rippleScale })
               .visibility(this.rippleVisible ? Visibility.Visible : Visibility.Hidden)
           }
@@ -142,6 +145,7 @@ export struct RadioButton {
         .width('24vp')
         .height('24vp')
         .borderRadius('12vp')
+        .opacity(this.ringOpacity)
         .backgroundColor(this.ringColor)
 
         Text(this.radioLabel)
