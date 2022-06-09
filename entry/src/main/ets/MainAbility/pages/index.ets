@@ -14,18 +14,37 @@
  */
 
 import prompt from '@system.prompt';
-import { RadioButton, RadioOption, RadioGroup }  from '@ohos/material-radio'
+import { RadioButton, RadioGroup, RadioOption, RadioModel }  from '@ohos/material-radio'
 
 @Entry
 @Component
 struct Index {
-  @State singleSelectedRadioId: number = -1
-  @State selectedRadioId: number = -1
+  private radioModel1: RadioModel = new RadioModel(1, $r('app.string.radio_enabled'))
+  private radioModel2: RadioModel = new RadioModel(2, $r('app.string.radio_disabled'))
+  private radioModel3: RadioModel = new RadioModel(3, $r('app.string.radio_selected_enabled'))
+  private radioModel4: RadioModel = new RadioModel(4, $r('app.string.radio_selected_disabled'))
   private radioOptions: RadioOption [] = [
     new RadioOption(1, $r('app.string.option_1')),
     new RadioOption(2, $r('app.string.option_2')),
     new RadioOption(3, $r('app.string.option_3'))
   ]
+
+  aboutToAppear() {
+    this.radioModel2.setDisabled(true);
+    this.radioModel4.setDisabled(true);
+  }
+
+  private onRadioCheck(id: number) {
+    prompt.showToast({
+      message: id.toString()
+    })
+  }
+
+  private onRadioGroupCheck(id: number) {
+    prompt.showToast({
+      message: "Selected radio button id - " + id
+    })
+  }
 
   build() {
     Column() {
@@ -37,36 +56,25 @@ struct Index {
         .margin({ left: 20, top: 8 })
 
       RadioButton({
-        radioId: 1,
-        radioLabel: $r('app.string.radio_enabled'),
-        selectedRadioId: $singleSelectedRadioId,
-        onSelect: (id) => {
-          prompt.showToast({
-            message: id.toString()
-          })
-        }
+        model: this.radioModel1,
+        onCheckChange: this.onRadioCheck
       })
 
       RadioButton({
-        radioId: 2,
-        radioLabel: $r('app.string.radio_disabled'),
-        selectedRadioId: $singleSelectedRadioId,
-        disabled: true
+        model: this.radioModel2,
+        onCheckChange: this.onRadioCheck
       })
 
       RadioButton({
-        radioId: 3,
-        radioLabel: $r('app.string.radio_selected_enabled'),
-        selectedRadioId: $singleSelectedRadioId,
-        checked: true
-      })
-
-      RadioButton({
-        radioId: 4,
-        radioLabel: $r('app.string.radio_selected_disabled'),
-        selectedRadioId: $singleSelectedRadioId,
+        model: this.radioModel3,
         checked: true,
-        disabled: true
+        onCheckChange: this.onRadioCheck
+      })
+
+      RadioButton({
+        model: this.radioModel4,
+        checked: true,
+        onCheckChange: this.onRadioCheck
       })
 
       Divider().height(4)
@@ -79,12 +87,7 @@ struct Index {
 
       RadioGroup({
         options: this.radioOptions,
-        selectedRadioId: $selectedRadioId,
-        onSelect: (id) => {
-          prompt.showToast({
-            message: "Selected radio button id - " + id
-          });
-        }
+        onCheckChange: this.onRadioGroupCheck
       })
 
     }

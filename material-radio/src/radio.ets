@@ -13,20 +13,24 @@
  * limitations under the License.
  */
 
-export class RadioOption {
-  id: number
-  label: string | Resource
-  constructor(id: number, label: string | Resource) {
-    this.id = id
-    this.label = label
-  }
-}
+import { RadioModel } from './radioModel';
+import { RadioOption } from './radioOption';
 
 @Component
 export struct RadioGroup {
-  @State options: RadioOption [] = []
-  @Link selectedRadioId: number
-  private onSelect: ((id: number) => void) = null
+  @State private options: RadioOption [] = []
+  @State private selectedRadioId: number = -1
+  private onCheckChange: ((id: number) => void) = null
+
+  aboutToAppear() {
+    if (this.options == undefined) {
+      this.options = []
+    }
+
+    if (this.selectedRadioId == null) {
+      this.selectedRadioId = -1
+    }
+  }
 
   build() {
     Column() {
@@ -36,13 +40,12 @@ export struct RadioGroup {
           (item) => {
             ListItem() {
               RadioButton({
-                radioId: item.id,
-                radioLabel: item.label,
-                selectedRadioId: $selectedRadioId,
-                checked: this.selectedRadioId == item.id,
-                onSelect: (id) => {
-                  if (this.onSelect != null) {
-                    this.onSelect(id);
+                model: new RadioModel(item.id, item.label),
+                checked: item.id == this.selectedRadioId,
+                onCheckChange: (id) => {
+                  this.selectedRadioId = id
+                  if (this.onCheckChange != null) {
+                    this.onCheckChange(id);
                   }
                 }
               })
@@ -57,104 +60,103 @@ export struct RadioGroup {
 
 @Component
 export struct RadioButton {
-  @Prop radioId: number
-  @Link selectedRadioId: number
   @State checked: boolean = false
-  @State disabled: boolean = false
-  @State private rippleVisible: boolean = false
-  @State private innerScale: number = 0
-  @State private rippleScale: number = 0
-  @State private ringOpacity: number = 1
-  private radioLabel: string | Resource = ""
-  private ringColor: string = "#78A064"
-  private onSelect: ((id: number) => void) = null
+  @State model: RadioModel = undefined
+  private onCheckChange: ((id: number) => void) = null
 
   aboutToAppear() {
-    if (this.disabled) {
-      //      this.ringColor = "#757575"
-      this.ringOpacity = 0.7
+    if (this.model == undefined) return
+
+    if (this.model.isDisabled()) {
+      this.model.setRingOpacity(0.7)
     }
+
     if (this.checked) {
-      this.showInnerRing()
+      this.model.setInnerScale(1)
     }
   }
 
   private onClick() {
-    if (this.disabled) return
+    if (this.model.isDisabled()) return
     if (!this.checked) this.showInnerRing()
     this.startRippleEffect()
   }
 
   private showInnerRing() {
     this.checked = true
-    this.selectedRadioId = this.radioId
 
-    if (this.onSelect != null) {
-      this.onSelect(this.radioId);
+    if (this.onCheckChange != null) {
+      this.onCheckChange(this.model.getRadioId());
     }
 
     animateTo({ duration: 250 }, () => {
-      this.innerScale = 1
+      this.model.setInnerScale(1)
     })
   }
 
   private hideInnerRing() {
     animateTo({ duration: 250 }, () => {
       this.checked = false
-      this.innerScale = 0
+      this.model.setInnerScale(0)
     })
   }
 
   private startRippleEffect() {
-    this.rippleVisible = true
+    this.model.setRippleVisible(true)
     animateTo({
       duration: 500,
       onFinish: () => {
-        this.rippleScale = 0
-        this.rippleVisible = false
+        this.model.setRippleScale(0)
+        this.model.setRippleVisible(false)
       }
     }, () => {
-      this.rippleScale = 2.4
+      this.model.setRippleScale(2.4)
     })
   }
 
   build() {
-    Column() {
-      Row() {
-        Stack() {
+    if (this.model != undefined && this.model.buildUI()) {
+      Column() {
+        Row() {
           Stack() {
-            Circle({ width: '16vp', height: '16vp' })
-              .borderRadius('8vp')
-              .opacity(this.ringOpacity)
-              .fill(this.checked ? this.ringColor : Color.White)
-              .scale({ x: this.innerScale, y: this.innerScale })
+            Stack() {
+              Circle({ width: '16vp', height: '16vp' })
+                .borderRadius('8vp')
+                .opacity(this.model.getRingOpacity())
+                .fill(this.checked ? this.model.getRingColor() : Color.White)
+                .scale({ x: this.model.getInnerScale(), y: this.model.getInnerScale() })
 
-            Circle({ width: '16vp', height: '16vp' })
-              .opacity(.2)
-              .borderRadius('8vp')
-              .fill(this.ringColor)
-              .scale({ x: this.rippleScale, y: this.rippleScale })
-              .visibility(this.rippleVisible ? Visibility.Visible : Visibility.Hidden)
+              Circle({ width: '16vp', height: '16vp' })
+                .opacity(.2)
+                .borderRadius('8vp')
+                .fill(this.model.getRingColor())
+                .scale({ x: this.model.getRippleScale(), y: this.model.getRippleScale() })
+                .visibility(this.model.getRippleVisible() ? Visibility.Visible : Visibility.Hidden)
+            }
+            .width('20vp')
+            .height('20vp')
+            .borderRadius('10vp')
+            .backgroundColor(Color.White)
           }
-          .width('20vp')
-          .height('20vp')
-          .borderRadius('10vp')
-          .backgroundColor(Color.White)
-        }
-        .margin('4vp')
-        .width('24vp')
-        .height('24vp')
-        .borderRadius('12vp')
-        .opacity(this.ringOpacity)
-        .backgroundColor(this.ringColor)
+          .margin('4vp')
+          .width('24vp')
+          .height('24vp')
+          .borderRadius('12vp')
+          .opacity(this.model.getRingOpacity())
+          .backgroundColor(this.model.getRingColor())
 
-        Text(this.radioLabel)
-          .fontSize('16vp')
-          .margin({ left: '8vp', right: '16vp' })
-      }.width('100%')
+          Text(this.model.getRadioLabel())
+            .fontSize('16vp')
+            .margin({ left: '8vp', right: '16vp' })
+        }.width('100%')
+      }
+      .margin(8)
+      .padding(4)
+      .onClick(() => this.onClick())
     }
-    .onClick(() => this.onClick())
-    .margin(8)
-    .padding(4)
   }
 }
+
+export { RadioOption } from "./radioOption";
+
+export { RadioModel } from "./radioModel";
