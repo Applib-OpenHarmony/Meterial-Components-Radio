@@ -12,35 +12,47 @@ Details about OpenHarmony NPM environment configuration, see at [here](https://g
 
 ## Usage Instructions
 
-Import all components at once
+1. Import files and code dependencies
 
 ```ets
-import { RadioButton, RadioOption, RadioGroup }  from '@ohos/material-radio'
+import { RadioButton, RadioGroup, RadioOption, RadioModel }  from '@ohos/material-radio'
 ```
 
-Use respective components to create below radio button/group design.
+2. Initialize model data
 
-## Radio Button Design: 
+```
+private radioModel: RadioModel = new RadioModel(1, "Radio Label")
+```
 
-RadioButton(
-    {
-        radioId: 1,
-        radioLabel: 'Radio Button',
-        selectedRadioId: $selectedRadioId,
-        checked: false,
-        disabled: false
+3. Code for creating radio button
+
+```
+RadioButton({
+    checked: true,
+    model: this.radioModel,
+    onCheckChange: (selectedRadioId) => {
+        console.log("Selected Radio Button Id:: " + selectedRadioId);
     }
-)
+})
+```
 
-## Radio Group Design: 
+![Radio_Buttons.png](screenshots/Radio%20Buttons.png)
 
+4. Code for creating radio group
+
+```
 RadioGroup(
     {
+        selectedRadioId: 1,
         options: [new RadioOption(1, "Option 1"), new RadioOption(2, "Option 2")],
-        selectedRadioId: $selectedRadioId
+        onCheckChange: (selectedRadioId) => {
+            console.log("Selected Radio Button Id:: " + selectedRadioId);
+        }
     }
 )
+```
 
+![Radio_Group.png](screenshots/Radio%20Group.png)
 
 ## Compatibility
 Supports OpenHarmony API version 8
