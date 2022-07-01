@@ -10,6 +10,6 @@
   "repository": {},
   "license": "ISC",
   "dependencies": {
-    "@ohos/material-radio": "file:../material_radio"
+    "@ohos/material-radio": "file:../materialradio"
   }
 }

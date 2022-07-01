@@ -24,8 +24,8 @@
       ]
     },
     {
-      "name": "material_radio",
-      "srcPath": "./material_radio"
+      "name": "materialradio",
+      "srcPath": "./materialradio"
     }
   ]
 }

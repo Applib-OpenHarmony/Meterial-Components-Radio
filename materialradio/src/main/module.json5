@@ -1,6 +1,6 @@
 {
   "module": {
-    "name": "material_radio",
+    "name": "materialradio",
     "type": "har",
     "deviceTypes": [
       "phone",
