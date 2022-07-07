@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "materialradio",
+    "type": "har",
+    "deviceTypes": [
+      "phone",
+      "tablet"
+    ],
+    "uiSyntax": "ets"
+  }
+}

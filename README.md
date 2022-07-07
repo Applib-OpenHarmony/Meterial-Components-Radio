@@ -1,14 +1,12 @@
-# Material_Component_Radio
+# MaterialRadio
 
-Material component radio design in OpenHarmony.
+This library is developed to provide material radio implemented using extended typescript.
 
 ## Download & Install
 
 Install using npm
 
-```npm i ohos-material-radio```
-
-Details about OpenHarmony NPM environment configuration, see at [here](https://gitee.com/openharmony-tpc/docs/blob/master/OpenHarmony_npm_usage.md)
+```npm i @ohos/material-radio```
 
 ## Usage Instructions
 
@@ -65,4 +63,4 @@ This project is based on [Apache License 2.0](https://github.com/Applib-OpenHarm
 
 # Reference:
 
-Design by : Dharma Seelan
+Design by : Himanshu Piplani
